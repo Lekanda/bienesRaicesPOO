@@ -11,7 +11,7 @@
 
 ### Tecnologias
 
-1. **PHP8**
+1. **PHP8**: 8.0.3.
 2. **Gulp**
 3. **CSS/SASS**
 4. **JS**

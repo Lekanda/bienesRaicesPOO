@@ -1,0 +1,72 @@
+.dark-mode {
+    background-color: darken($grisOscuro, 10);
+
+    p {
+        color: $blanco;
+    }
+
+    a, h1,h2,h3,h4  {
+        color: $gris;
+    }
+
+    .anuncio, 
+    .resumen-propiedad {
+        background-color: $grisOscuro;
+        border: 1px solid $grisOscuro;
+
+        .precio {
+            color: $verde;
+        }
+        .icono {
+            filter: invert(100%);
+        }
+    }
+    
+
+    .texto-nosotros blockquote {
+        color: $blanco;
+    }
+   
+    .formulario {
+        label,
+        legend,
+        p {
+            color: $gris;
+        }
+
+        input:not([type="submit"]), 
+        textarea,
+        select {
+            background-color: $grisOscuro;
+            border: 1px solid $grisOscuro;
+            color: $blanco;
+        }
+    }
+
+    .propiedades{
+        text-align: center;
+        th{
+            color: darken($verde, 28);
+        }
+        .cuerpo-tabla-propiedades td:nth-child(even){
+            color: lighten($verde, 18);
+            background-color: $grisOscuro;
+        }
+        .cuerpo-tabla-propiedades td:nth-child(1){
+            color: darken($verde, 5);
+            // background-color: darken($verde, 15);
+        }
+        .cuerpo-tabla-propiedades td:nth-child(2),
+        .cuerpo-tabla-propiedades td:nth-child(4){
+            color: darken($verde, 5);
+        }
+
+        .cuerpo-tabla-propiedades td:nth-child(3){
+            .imagen-tabla{
+                padding: 0;
+                align-content: center;
+
+            }
+        }
+    }
+}

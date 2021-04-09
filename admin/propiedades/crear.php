@@ -1,6 +1,17 @@
 <?php 
 
-    require '../../includes/funciones.php';
+    require '../../includes/app.php';
+
+    // Importar o usar la classe
+    use App\Propiedad;
+
+    $propiedad = new Propiedad;
+    echo"<pre>";
+    var_dump($propiedad);
+    echo"</pre>";
+
+    exit;
+
     $auth = estaAutenticado();
     // Restringir el acceso a determinadas paginas.
     if (!$auth) {
@@ -8,7 +19,6 @@
     }
 
     // Base de Datos
-    require '../../includes/config/database.php';
     $db = conectarDB();
 
     // Consulat a DB para obtener los vendedores

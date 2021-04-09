@@ -9,8 +9,8 @@
         header('Location: /');
     }
 
+    require 'includes/app.php';
     // Importar la DB
-    require 'includes/config/database.php';
     $db = conectarDB();
 
     // Hacer la consulta a la DB
@@ -31,7 +31,6 @@
 
 
 
-    require 'includes/funciones.php';
     incluirTemplate('header');
 ?>  
     <main class="contenedor seccion contenido-centrado">

@@ -1,0 +1,17 @@
+{
+    "name": "lekanda/bienes-raices-poo",
+    "description": "Tercera version de Bienes Proyectos con POO",
+    "type": "project",
+    "authors": [
+        {
+            "name": "lekanda",
+            "email": "abernaolao@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\" : "./classes"
+        }
+    }
+}

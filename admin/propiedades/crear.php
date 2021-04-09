@@ -5,18 +5,11 @@
     // Importar o usar la classe
     use App\Propiedad;
 
-    $propiedad = new Propiedad;
-    echo"<pre>";
-    var_dump($propiedad);
-    echo"</pre>";
+    // debuguear($propiedad);
 
-    exit;
-
-    $auth = estaAutenticado();
+    estaAutenticado();
     // Restringir el acceso a determinadas paginas.
-    if (!$auth) {
-        header('Location: /');
-    }
+    
 
     // Base de Datos
     $db = conectarDB();

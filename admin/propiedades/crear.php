@@ -2,7 +2,7 @@
 
     require '../../includes/app.php';
 
-    // Importar o usar la classe
+    // Importar o usar las clases
     use App\Propiedad;
 
     // debuguear($propiedad);
@@ -37,7 +37,7 @@
         // El constructor de la clase es uns Arreglo y $_POST tambien por eso se puede pasar asi.
         $propiedad = new Propiedad($_POST);
         $propiedad->guardar();
-        debuguear($propiedad);
+        // debuguear($propiedad);
         
         // debuguear($_POST);
         // debuguear($_FILES);
@@ -118,9 +118,7 @@
             // Subir la imagen
             move_uploaded_file($imagen['tmp_name'], $carpetaImagenes  . $nombreImagen);
 
-            // Insertar en la DB
-            $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$titulo', '$precio','$nombreImagen','$descripcion','$habitaciones','$wc','$estacionamiento','$creado','$vendedorId')";
-            echo $query;
+            
 
             $resultado = mysqli_query($db,$query);
             

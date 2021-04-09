@@ -33,16 +33,14 @@
     
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        
-        // echo "<pre>";
-        // var_dump($_POST);
-        // echo "</pre>";
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
 
-
+        // El constructor de la clase es uns Arreglo y $_POST tambien por eso se puede pasar asi.
+        $propiedad = new Propiedad($_POST);
+        $propiedad->guardar();
+        debuguear($propiedad);
+        
+        // debuguear($_POST);
+        // debuguear($_FILES);
         $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
         $precio = mysqli_real_escape_string($db, $_POST["precio"]);
         $descripcion = mysqli_real_escape_string($db, $_POST["descripcion"]);
@@ -228,7 +226,7 @@
             <fieldset>
                 <legend>Vendedor</legend>
 
-                <select name="vendedor" value="<?php echo $vendedorId; ?>">
+                <select name="vendedorId" value="<?php echo $vendedorId; ?>">
                     <option value="">-- Seleccione --</option>
                     <?php while ($vendedor = mysqli_fetch_assoc($resultado) ): ?>
                         <option 

@@ -6,6 +6,9 @@ class Propiedad{
     //  Base de Datos. Para que solo haya una conexion a la DB. Sí no , cada vez que instanciamos un objeto se crea uan conexion nueva y consume mucha memoria. Static hace que la conexion sea la misma para todos los objetos instanciados.
     protected static $db; // Estatico p q siempre son las mismas credenciales para conexion a DB. Al ser protected solo se puede instanciar desde el mismo objeto. Al ser static el metodo que se cree para manejar este atributo debe ser tambien estatico.
 
+    protected static $columnasDB =['id','titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','vendedorId'];
+
+
     public $id;
     public $titulo;
     public $precio;
@@ -17,6 +20,13 @@ class Propiedad{
     public $creado;
     public $vendedorId;
 
+    // Definir la conexion a la DB.
+    public static function setDB($database){
+        // Self podia ser Propiedad. Debe ponerse self x estatico
+        self::$db=$database; // En estaticos hay $
+    }
+
+    // Constructor
     public function __construct($args = [])
     {
         $this->id = $args['id'] ?? '';
@@ -34,6 +44,10 @@ class Propiedad{
     public function guardar(){
         // echo "Guardando en la DB";
 
+        // Sanitizar los datos con funcion externa.
+        $atributos=$this->sanitizarAtributos();
+        debuguear($atributos);
+
         // Insertar en la DB
         $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$this->titulo', '$this->precio','$this->imagen','$this->descripcion','$this->habitaciones','$this->wc','$this->estacionamiento','$this->creado','$this->vendedorId')";
         // debuguear($query);
@@ -42,9 +56,26 @@ class Propiedad{
         debuguear($resultado);
     }
 
-    // Definir la conexion a la DB.
-    public static function setDB($database){
-        // Self podia ser Propiedad. Debe ponerse self x estatico
-        self::$db=$database; // En estaticos hay $
+    // Identificar y unir los atributos de la DB.
+    public function atributos(){
+        $atributos = [];
+        foreach (self::$columnasDB as $columna) {
+            if($columna==='id') continue; // Ignora la columna ID
+            $atributos [$columna]=$this->$columna;
+        }
+        return $atributos;
+    }
+
+    public function sanitizarAtributos(){
+        $atributos = $this->atributos();
+        // debuguear($atributos);
+        $sanitizado = [];
+        foreach ($atributos as $key => $value) {
+            // echo $key;
+            // echo $value;
+            $sanitizado[$key] = self::$db->escape_string($value);
+        }
+        // debuguear($sanitizado);
+        return $sanitizado;
     }
 }

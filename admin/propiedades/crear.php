@@ -19,7 +19,8 @@
     $resultado = mysqli_query($db,$consulta);
 
     // Arreglo con mensajes de errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
+    // debuguear($errores);
 
     // Ejecuta el codigo despues de que el usuario envie el formulario
     $titulo = '';
@@ -36,72 +37,17 @@
 
         // El constructor de la clase es uns Arreglo y $_POST tambien por eso se puede pasar asi.
         $propiedad = new Propiedad($_POST);
-        $propiedad->guardar();
-        // debuguear($propiedad);
-        
-        // debuguear($_POST);
-        // debuguear($_FILES);
-        $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
-        $precio = mysqli_real_escape_string($db, $_POST["precio"]);
-        $descripcion = mysqli_real_escape_string($db, $_POST["descripcion"]);
-        $habitaciones = mysqli_real_escape_string($db, $_POST["habitaciones"]);
-        $wc = mysqli_real_escape_string($db, $_POST["wc"]);
-        $estacionamiento = mysqli_real_escape_string($db, $_POST["estacionamiento"]);
-        $vendedorId = mysqli_real_escape_string($db, $_POST["vendedor"]);
-        $creado = date('Y/m/d');
 
-
-        // Asignar Files hacia una Variable
-        $imagen = $_FILES['imagen'];
-        // var_dump($imagen['name']);
-
-
-
-        // Validar que no vaya vacio
-        if (!$titulo) {
-            // $errores[] => añade al arreglo $errores
-            $errores[] = "Debes añadir un titulo";
-        }
-        if (!$precio) {
-            $errores[] = "Debes añadir un precio";
-        }
-        if (strlen($descripcion) < 20) {
-            $errores[] = "Debes añadir una descripcion";
-        }
-        if (!$habitaciones) {
-            $errores[] = "Debes añadir un numero de Habitaciones";
-        }
-        if (!$wc) {
-            $errores[] = "Debes añadir un numero de Baños";
-        }
-        if (!$estacionamiento) {
-            $errores[] = "Debes añadir un numero de plazas de aparcamiento";
-        }
-        if (!$vendedorId) {
-            $errores[] = "Debes añadir un Identificador de vendedor";
-        }
-        if (!$imagen['name'] || $imagen['error']) {
-            $errores[] = "Debes seleccionar una imagen";
-        }
-        // Validar las imagenes por tamaño (1000Kb)
-        $medida = 1000 * 1000;
-        if ($imagen['size'] > $medida) {
-            $errores[] = "Tamaño imagen grande, Max: 100Kb";
-        }
-
-
-
-        // echo "<pre>";
-        // var_dump($errores);
-        // echo "</pre>";
-
-        // echo "<pre>";
-        // var_dump($_FILES);
-        // echo "</pre>";
+        $errores = $propiedad->validar();
 
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
+            $propiedad->guardar();
+
+            // Asignar Files hacia una Variable
+            $imagen = $_FILES['imagen'];
+
 
             /**Subida de Archivos**/
             // Crear una carpeta

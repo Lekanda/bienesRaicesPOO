@@ -46,14 +46,26 @@ class Propiedad{
 
         // Sanitizar los datos con funcion externa.
         $atributos=$this->sanitizarAtributos();
-        debuguear($atributos);
+        // debuguear($atributos);
+
+        // debuguear(array_keys($atributos)); // Nos da los nombre de las variables de los valores
+        // debuguear(array_values($atributos)); // Nos da los valores
+        
+        // $string = join(', ',array_values($atributos)); // Join crea un string a partir de un arreglo
+        // debuguear($string); // Nos da los nombre de las variables de los valores
 
         // Insertar en la DB
-        $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId) VALUES ( '$this->titulo', '$this->precio','$this->imagen','$this->descripcion','$this->habitaciones','$this->wc','$this->estacionamiento','$this->creado','$this->vendedorId')";
+        $query = " INSERT INTO propiedades ( "; // IMPORTANTE ESPACIOS
+        $query .= join(', ',array_keys($atributos)); //Nos da los nombre de las variables de los valores
+        $query .= " ) VALUES (' "; // IMPORTANTE ESPACIOS
+        $query .= join("', '",array_values($atributos)); // Nos da los valores.  "', '" => pone a cada valor'' rodeando
+        $query .= " ') "; // IMPORTANTE ESPACIOS
         // debuguear($query);
         
-        $resultado=self::$db-> query($query);
+        $resultado=self::$db-> query($query); // Nos da true/False segun ha sido la conexion a DB
         debuguear($resultado);
+
+        
     }
 
     // Identificar y unir los atributos de la DB.

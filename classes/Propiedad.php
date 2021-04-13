@@ -41,7 +41,7 @@ class Propiedad{
         $this->wc = $args['wc'] ?? '';
         $this->estacionamiento = $args['estacionamiento'] ?? '';
         $this->creado = date('Y/m/d');
-        $this->vendedorId = $args['vendedorId'] ?? '';
+        $this->vendedorId = $args['vendedorId'] ?? 1;
     }
 
     public function guardar(){
@@ -160,8 +160,6 @@ class Propiedad{
         $resultado->free();
         //*** retornar los resultados ***
         return $array;
-
-
     }
 
     protected static function crearObjeto($registro){

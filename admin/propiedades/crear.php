@@ -4,6 +4,9 @@
 
     // Importar o usar las clases
     use App\Propiedad;
+    use Intervention\Image\ImageManagerStatic as Image;
+
+
 
     // debuguear($propiedad);
 
@@ -32,45 +35,45 @@
     $vendedorId = '';
     $creado = '';
     
-    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        // El constructor de la clase es uns Arreglo y $_POST tambien por eso se puede pasar asi.
+        // El constructor de la clase es un Arreglo y $_POST tambien por eso se puede pasar asi.
         $propiedad = new Propiedad($_POST);
 
-        $errores = $propiedad->validar();
+         /**Subida de Archivos**/
+        // Crear una carpeta
+        $carpetaImagenes = '../../imagenes/';
+        if (!is_dir($carpetaImagenes)) {
+            mkdir($carpetaImagenes);
+        }
 
+        // Generar un nombre unico
+        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+
+        // Setear la imagen 
+        // Realiza un resize a la imagen con Intervention Image.
+        if ($_FILES['imagen']['tmp_name']) {
+            $image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+            $propiedad->setImagen($nombreImagen);
+        }
+
+        // Validar 
+        $errores = $propiedad->validar();
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
-            $propiedad->guardar();
-
-            // Asignar Files hacia una Variable
-            $imagen = $_FILES['imagen'];
-
-
-            /**Subida de Archivos**/
-            // Crear una carpeta
-            $carpetaImagenes = '../../imagenes/';
-
-            if (!is_dir($carpetaImagenes)) {
-                mkdir($carpetaImagenes);
+            // Crear la carpeta imagenes
+            if(!is_dir(CARPETAS_IMAGENES)){
+                mkdir(CARPETAS_IMAGENES);
             }
 
-            // Generar un nombre unico
-            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
-            var_dump($nombreImagen);
+            // Guarda la imagen en el servidor
+            $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
-            // Subir la imagen
-            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes  . $nombreImagen);
+            // Guarda en la DB
+            $resultado = $propiedad->guardar();
 
-            
-
-            $resultado = mysqli_query($db,$query);
-            
+            // Mensaje de exito/error en guardar datos.
             if($resultado){
-                // echo "Insertado correctamente";
-                // Redirecionar al usuario
                 header('Location: /bienesraicesPOO/admin?resultado=1');
             }
         }
@@ -79,14 +82,10 @@
     incluirTemplate('header');
 ?>  
 
-
-
-
-
     <main class="contenedor seccion">
         <h1>Crear</h1>
 
-        <a href="/admin" class="boton boton-verde">Volver</a>
+        <a href="/bienesraicesPOO/admin" class="boton boton-verde">Volver</a>
 
         <?php foreach ($errores as $error) : ?>
             <div class="alerta error">

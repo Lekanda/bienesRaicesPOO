@@ -35,7 +35,7 @@ class Propiedad{
         $this->id = $args['id'] ?? '';
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
-        $this->imagen = $args['imagen'] ?? 'imagen.jpg';
+        $this->imagen = $args['imagen'] ?? '';
         $this->descripcion = $args['descripcion'] ?? '';
         $this->habitaciones = $args['habitaciones'] ?? '';
         $this->wc = $args['wc'] ?? '';
@@ -45,11 +45,8 @@ class Propiedad{
     }
 
     public function guardar(){
-        // echo "Guardando en la DB";
-
         // Sanitizar los datos con funcion externa.
         $atributos=$this->sanitizarAtributos();
-        // debuguear($atributos);
 
         // debuguear(array_keys($atributos)); // Nos da los nombre de las variables de los valores
         // debuguear(array_values($atributos)); // Nos da los valores
@@ -59,16 +56,14 @@ class Propiedad{
 
         // Insertar en la DB
         $query = " INSERT INTO propiedades ( "; // IMPORTANTE ESPACIOS
-        $query .= join(', ',array_keys($atributos)); //Nos da los nombre de las variables de los valores
+        $query .= join(', ',array_keys($atributos)); //Nos da los nombre de las columnas de los valores
         $query .= " ) VALUES (' "; // IMPORTANTE ESPACIOS
         $query .= join("', '",array_values($atributos)); // Nos da los valores.  "', '" => pone a cada valor'' rodeando
         $query .= " ') "; // IMPORTANTE ESPACIOS
         // debuguear($query);
         
         $resultado=self::$db-> query($query); // Nos da true/False segun ha sido la conexion a DB
-        debuguear($resultado);
-
-        
+        return($resultado);
     }
 
     // Identificar y unir los atributos de la DB.
@@ -93,6 +88,17 @@ class Propiedad{
         // debuguear($sanitizado);
         return $sanitizado;
     }
+
+    //  Subida de Archivos
+    public function setImagen($imagen){
+        // Asignar al atributo de imagen el nombre de la imagen
+        if ($imagen) {
+            $this->imagen = $imagen;
+        }
+    }
+
+
+
 
     // Validacion
     public static function getErrores(){
@@ -123,14 +129,10 @@ class Propiedad{
         if (!$this->vendedorId) {
             self::$errores[] = "Debes añadir un Identificador de vendedor";
         }
-        // if (!$this->imagen['name'] || $this->imagen['error']) {
-        //     self::$errores[] = "Debes seleccionar una imagen";
-        // }
-        // // // Validar las imagenes por tamaño (1000Kb)
-        // $medida = 1000 * 1000;
-        // if ($this->imagen['size'] > $medida) {
-        //     self::$errores[] = "Tamaño imagen grande, Max: 100Kb";
-        // }
+        
+        if (!$this->imagen) {
+            self::$errores[] = "Debes seleccionar una imagen";
+        }
 
         return self::$errores;
     }

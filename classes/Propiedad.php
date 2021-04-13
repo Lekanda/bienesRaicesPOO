@@ -136,5 +136,48 @@ class Propiedad{
 
         return self::$errores;
     }
+
+    // Lista todas las propiedades de la DB.Static pq no hace falta crear una nueva instancia, consultamos la db y traemos todos los registros
+    public static function all (){
+        //Escribir el Query a DB SQL
+        $query = "SELECT * FROM propiedades";
+        $resultado = self::consultarSQL($query);
+        // debuguear($resultado);
+        return $resultado;
+    }
+    
+    // Metodo para hacer consultas a SQL DB. REUTILIZABLE
+    public static function consultarSQL ($query) {
+        //*** Consultar la DB ***
+        $resultado = self::$db->query($query);
+        //*** Iterar los resultados ***
+        $array = [];
+        while ($registro = $resultado->fetch_assoc()){
+            $array[]=self::crearObjeto($registro);
+        }
+        // debuguear($array);
+        //*** Liberar la memoria ***
+        $resultado->free();
+        //*** retornar los resultados ***
+        return $array;
+
+
+    }
+
+    protected static function crearObjeto($registro){
+        $objeto = new self; // Quiere decir 'self' la clase padre(Propiedad)
+        // debuguear($objeto);
+        // debuguear($registro);
+
+        foreach ($registro as $key => $value) {
+            // debuguear($key);
+            if(property_exists($objeto,$key)){
+                $objeto->$key = $value;
+            }
+        }
+
+        return $objeto;
+    }
+
 }
 

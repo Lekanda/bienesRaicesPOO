@@ -11,7 +11,7 @@
     $id= $_GET['id'];
     $id=filter_var($id, FILTER_VALIDATE_INT);
     if (!$id) {
-        header('Location: /admin');
+        header('Location: /bienesraicesPOO/admin');
     }
 
     // Base de Datos

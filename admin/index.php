@@ -1,28 +1,20 @@
 <?php
     
-    require '../includes/funciones.php';
-    $auth = estaAutenticado();
-    // Restringir el acceso a determinadas paginas.
-    if (!$auth) {
-        header('Location: /bienesraicesPOO/');
-    }
+    require '../includes/app.php';
+    estaAutenticado();
 
-    // Importar la conexion de la DB
-    require '../includes/config/database.php';
-    $db = conectarDB();
+    use App\Propiedad;
 
-    //Escribir el Query
-    $query = "SELECT * FROM propiedades";
-
-    // Consultar la DB
-    $resultadoConsulta = mysqli_query($db, $query);
+    // Implementar un metodo para obtener todas las propiedades con Active Record
+    $propiedades = Propiedad::all();
+    // debuguear($propiedades);
 
 
     // Muestra mensaje condicional, si no hay lo pone como null
     $resultado = $_GET['resultado'] ?? null;
 
 
-    //
+    // 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $_POST['id'];
         $id = filter_var($id, FILTER_VALIDATE_INT);
@@ -87,7 +79,7 @@ incluirTemplate('header');
 
                                 <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>
-                            <a href="propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                            <a href="/bienesraicesPOO/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
                         </td>
                     </tr>
                 <?php endwhile ?>

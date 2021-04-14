@@ -6,7 +6,6 @@ require '../../includes/app.php';
 
     estaAutenticado();
 
-
     // Validar la URL por ID valido(INT)
     $id= $_GET['id'];
     $id=filter_var($id, FILTER_VALIDATE_INT);
@@ -27,17 +26,15 @@ require '../../includes/app.php';
 
     // Ejecuta el codigo despues de que el usuario envie el formulario
     
-    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        $titulo = mysqli_real_escape_string($db, $_POST["titulo"]);
-        $precio = mysqli_real_escape_string($db, $_POST["precio"]);
-        $descripcion = mysqli_real_escape_string($db, $_POST["descripcion"]);
-        $habitaciones = mysqli_real_escape_string($db, $_POST["habitaciones"]);
-        $wc = mysqli_real_escape_string($db, $_POST["wc"]);
-        $estacionamiento = mysqli_real_escape_string($db, $_POST["estacionamiento"]);
-        $vendedorId = mysqli_real_escape_string($db, $_POST["vendedor"]);
-        $creado = date('Y/m/d');
+        // debuguear($_POST);
+
+        // Asignar los atributos
+        $args = $_POST['propiedad'];
+
+        $propiedad->sincronizar($args);
+        debuguear($propiedad);
 
         // Asignar Files hacia una Variable
         $imagen = $_FILES['imagen'];
@@ -82,7 +79,6 @@ require '../../includes/app.php';
                 mkdir($carpetaImagenes);
             }
 
-            // 
             $nombreImagen = '';
 
             /**Subida de Archivos**/
@@ -114,7 +110,6 @@ require '../../includes/app.php';
 
     incluirTemplate('header');
 ?>  
-
 
 
     <main class="contenedor seccion">

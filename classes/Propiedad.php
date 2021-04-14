@@ -145,6 +145,16 @@ class Propiedad{
         // debuguear($resultado);
         return $resultado;
     }
+
+    // Metodo para actualizar un registro de la DB x su ID.
+    public static function find($id){
+        $query = "SELECT * FROM propiedades WHERE id = ${id}";
+        $resultado = self::consultarSQL($query);
+
+        return array_shift($resultado); // array_shift: Nos devuelve el primer resultado de un arreglo
+    }
+
+
     
     // Metodo para hacer consultas a SQL DB. REUTILIZABLE
     public static function consultarSQL ($query) {

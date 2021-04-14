@@ -1,10 +1,10 @@
-<?php 
-    require '../../includes/funciones.php';
-    $auth = estaAutenticado();
-    // Restringir el acceso a determinadas paginas.
-    if (!$auth) {
-        header('Location: /');
-    }
+<?php
+
+use App\Propiedad;
+
+require '../../includes/app.php';
+
+    estaAutenticado();
 
 
     // Validar la URL por ID valido(INT)
@@ -14,15 +14,9 @@
         header('Location: /bienesraicesPOO/admin');
     }
 
-    // Base de Datos
-    require '../../includes/config/database.php';
-    $db = conectarDB();
-
-
-    // Consulta a DB para traer los datos de la propiedad
-    $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
-    $resultado = mysqli_query($db,$consulta);
-    $propiedad = mysqli_fetch_assoc($resultado);
+    // Obtener los datos de la propiedad
+    $propiedad = Propiedad::find($id);
+    // debuguear($propiedad);
 
     // Consulat a DB para obtener los vendedores
     $consulta = "SELECT * FROM vendedores";
@@ -32,15 +26,7 @@
     $errores = [];
 
     // Ejecuta el codigo despues de que el usuario envie el formulario
-    $titulo = $propiedad['titulo'];
-    $precio = $propiedad['precio'];
-    $descripcion = $propiedad['descripcion'];
-    $habitaciones = $propiedad['habitaciones'];
-    $wc = $propiedad['wc'];
-    $estacionamiento = $propiedad['estacionamiento'];
-    $vendedorId = $propiedad['vendedorId'];
-    $creado = $propiedad['creado'];
-    $imagenPropiedad = $propiedad['imagen'];
+    
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -143,102 +129,7 @@
         <?php endforeach; ?> 
 
         <form method="POST" class="formulario" enctype="multipart/form-data">
-            <fieldset>
-
-                <legend>Informacion General</legend>
-
-                <label for="titulo">Titulo:</label>
-                <input 
-                    type="text" 
-                    id="titulo" 
-                    name="titulo" 
-                    placeholder="Titulo Propiedad" 
-                    value="<?php echo $titulo; ?>"
-                >
-
-                <label for="precio">Precio:</label>
-                <input 
-                    type="number" 
-                    id="precio" 
-                    name="precio" 
-                    placeholder="Precio Propiedad" 
-                    value="<?php echo $precio; ?>"
-                >
-
-                <label for="imagen">Imagen:</label>
-                <input 
-                    type="file" 
-                    id="imagen" 
-                    accept="image/jpeg, image/png" 
-                    name="imagen"
-                >
-
-                <img 
-                    src="/bienesraicesPOO/imagenes/<?php echo $imagenPropiedad ?>" 
-                    alt="Imagen de la propiedad" 
-                    class="imagen-small"
-                >
-
-                <label for="descripcion">Descripcion:</label>
-                <textarea id="descripcion" name="descripcion"><?php echo $descripcion; ?></textarea>
-
-            </fieldset>
-            
-
-            <fieldset>
-
-                <legend>Informacion Propiedad</legend>
-
-                <label for="habitaciones">Habitaciones:</label>
-                <input 
-                    type="number" 
-                    id="habitaciones" 
-                    name="habitaciones"  
-                    placeholder="Numero Habitaciones 1-9" 
-                    min="1" 
-                    max="9" 
-                    step="1" 
-                    value="<?php echo $habitaciones; ?>"
-                >
-
-                <label for="wc">WC:</label>
-                <input 
-                    type="number" 
-                    id="wc" name="wc" 
-                    placeholder="Numero wc Propiedad 1-9" 
-                    min="1" 
-                    max="9" 
-                    step="1" 
-                    value="<?php echo $wc; ?>"
-                >
-
-                <label for="estacionamiento">Estacionamiento:</label>
-                <input 
-                    type="number" 
-                    id="estacionamiento" 
-                    name="estacionamiento" 
-                    placeholder="Estacionamientos para Coches 1-9" 
-                    min="1" 
-                    max="9" 
-                    step="1" 
-                    value="<?php echo $estacionamiento; ?>"
-                >
-
-            </fieldset>
-
-            <fieldset>
-                <legend>Vendedor</legend>
-
-                <select name="vendedor" value="<?php echo $vendedorId; ?>">
-                    <option value="">-- Seleccione --</option>
-                    <?php while ($vendedor = mysqli_fetch_assoc($resultado) ): ?>
-                        <option 
-                            <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>
-                            value="<?php echo $vendedor['id'] ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?>
-                        </option>
-                    <?php endwhile;?>
-                </select>
-            </fieldset>
+            <?php include '../../includes/templates/formulario_propiedades.php' ?>
 
             <input type="submit" value="Editar Propiedad" class="boton boton-verde">
         </form>

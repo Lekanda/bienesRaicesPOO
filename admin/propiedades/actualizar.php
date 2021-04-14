@@ -22,54 +22,18 @@ require '../../includes/app.php';
     $resultado = mysqli_query($db,$consulta);
 
     // Arreglo con mensajes de errores
-    $errores = [];
+    $errores = Propiedad::getErrores();
+
+
 
     // Ejecuta el codigo despues de que el usuario envie el formulario
-    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-        // debuguear($_POST);
-
         // Asignar los atributos
         $args = $_POST['propiedad'];
-
         $propiedad->sincronizar($args);
-        debuguear($propiedad);
+        // debuguear($propiedad);
 
-        // Asignar Files hacia una Variable
-        $imagen = $_FILES['imagen'];
-        var_dump($imagen['name']);
-
-
-        // Validar que no vaya vacio
-        if (!$titulo) {
-            // $errores[] => añade al arreglo $errores
-            $errores[] = "Debes añadir un titulo";
-        }
-        if (!$precio) {
-            $errores[] = "Debes añadir un precio";
-        }
-        if (strlen($descripcion) < 20) {
-            $errores[] = "Debes añadir una descripcion";
-        }
-        if (!$habitaciones) {
-            $errores[] = "Debes añadir un numero de Habitaciones";
-        }
-        if (!$wc) {
-            $errores[] = "Debes añadir un numero de Baños";
-        }
-        if (!$estacionamiento) {
-            $errores[] = "Debes añadir un numero de plazas de aparcamiento";
-        }
-        if (!$vendedorId) {
-            $errores[] = "Debes añadir un Identificador de vendedor";
-        }
-        
-        // Validar las imagenes por tamaño (1000Kb)
-        $medida = 1000 * 1000;
-        if ($imagen['size'] > $medida) {
-            $errores[] = "Tamaño imagen grande, Max: 100Kb";
-        }
+        $errores = $propiedad->validar();
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
@@ -110,7 +74,6 @@ require '../../includes/app.php';
 
     incluirTemplate('header');
 ?>  
-
 
     <main class="contenedor seccion">
         <h1>Actualizar Propiedad</h1>

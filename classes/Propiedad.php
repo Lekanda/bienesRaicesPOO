@@ -98,8 +98,6 @@ class Propiedad{
     }
 
 
-
-
     // Validacion
     public static function getErrores(){
         return self::$errores;

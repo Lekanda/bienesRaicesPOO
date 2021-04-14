@@ -1,5 +1,4 @@
 <?php
-    
     require '../includes/app.php';
     estaAutenticado();
 
@@ -9,10 +8,8 @@
     $propiedades = Propiedad::all();
     // debuguear($propiedades);
 
-
     // Muestra mensaje condicional, si no hay lo pone como null
     $resultado = $_GET['resultado'] ?? null;
-
 
     // 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,14 +17,13 @@
         $id = filter_var($id, FILTER_VALIDATE_INT);
         
         if ($id) {
-            // Elimina el archivo
+            // Elimina la imagen (archivo)
             $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
             $resultado = mysqli_query($db, $query);
             $propiedad = mysqli_fetch_assoc($resultado);
-
             unlink('../imagenes/' . $propiedad['imagen']);
 
-            // Elimina la propiedad
+            // Elimina la propiedad de la DB.
             $query = "DELETE FROM propiedades WHERE id = ${id}";
             $resultado = mysqli_query($db,$query);
             if ($resultado) {
@@ -36,11 +32,9 @@
         }
     }
 
-
 // Incluye un template
 incluirTemplate('header');
 ?>
-
 
     <main class="contenedor seccion">
         <h1>Administrador de Bienes Raices</h1>
@@ -65,34 +59,31 @@ incluirTemplate('header');
                 </tr>
             </thead>
             <tbody class="cuerpo-tabla-propiedades"><!-- Mostrar los resultados -->
-                <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)) : ?>
+                <?php foreach($propiedades as $propiedad) : ?>
                     <tr>
-                        <td> <?php echo $propiedad['id']; ?> </td>
-                        <td><?php echo $propiedad['titulo']; ?></td>
+                        <td> <?php echo $propiedad->id; ?> </td>
+                        <td><?php echo $propiedad->titulo; ?></td>
 
-                        <td class="imagen-tabla"><img class="imagen-tabla" src="/bienesraicesPOO/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla"></td>
+                        <td class="imagen-tabla"><img class="imagen-tabla" src="/bienesraicesPOO/imagenes/<?php echo $propiedad->imagen; ?>" class="imagen-tabla"></td>
 
-                        <td><?php echo $propiedad['precio']; ?>€</td>
+                        <td><?php echo $propiedad->precio; ?>€</td>
                         <td>
                             <form method="POST" class="w-100">
-                                <input type="hidden" name="id" value="<?php echo $propiedad['id']; ?>">
+                                <input type="hidden" name="id" value="<?php echo $propiedad->id; ?>">
 
                                 <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>
-                            <a href="/bienesraicesPOO/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?>" class="boton-amarillo-block">Actualizar</a>
+                            <a href="/bienesraicesPOO/propiedades/actualizar.php?id=<?php echo $propiedad->id; ?>" class="boton-amarillo-block">Actualizar</a>
                         </td>
                     </tr>
-                <?php endwhile ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
-
     </main>
-
 <?php
 
 // Cerrar la conexion
 mysqli_close($db);
-
 
 incluirTemplate('footer');
 ?>

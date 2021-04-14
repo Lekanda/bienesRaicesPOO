@@ -80,13 +80,13 @@
         <h1>Crear</h1>
 
         <a href="/bienesraicesPOO/admin" class="boton boton-verde">Volver</a>
-
+        <!-- Errores -->
         <?php foreach ($errores as $error) : ?>
             <div class="alerta error">
                 <?php echo $error; ?>
             </div>
         <?php endforeach; ?> 
-
+        <!-- Formulario -->
         <form method="POST" class="formulario" action="/bienesraicesPOO/admin/propiedades/crear.php" enctype="multipart/form-data">
             
             <?php include '../../includes/templates/formulario_propiedades.php' ?>

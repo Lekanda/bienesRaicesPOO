@@ -31,7 +31,7 @@
         // El constructor de la clase es un Arreglo y $_POST tambien por eso se puede pasar asi.
         $propiedad = new Propiedad($_POST['propiedad']);
 
-        // debuguear($propiedad);
+        debuguear($propiedad);
         // debuguear($_FILES['propiedad']);
 
          /**Subida de Archivos**/

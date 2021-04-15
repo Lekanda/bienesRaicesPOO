@@ -89,13 +89,31 @@ class Propiedad{
         return $sanitizado;
     }
 
+
+
+
+
     //  Subida de Archivos
     public function setImagen($imagen){
+        // Elimina la imagen previa
+        // debuguear($this->imagen);
+        // Sí hay un id quiere decir que se esta actualizando, ya que, al  crear uno nuevo el id se crea solo en la DB con auto_increment.
+        if ($this->id) {
+            // Comprobar si existe el archivo
+            $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
+            // debuguear($existeArchivo);
+            if ($existeArchivo) {
+                unlink(CARPETAS_IMAGENES . $this->imagen);
+            }
+        }
+
         // Asignar al atributo de imagen el nombre de la imagen
         if ($imagen) {
             $this->imagen = $imagen;
         }
     }
+
+
 
 
     // Validacion

@@ -45,6 +45,16 @@ class Propiedad{
     }
 
     public function guardar(){
+        if (isset($this->id)) {
+            // Actualizar
+            $this->actualizar();
+        }else{
+            // Crear
+            $this->crear();
+        }
+    }
+
+    public function crear(){
         // Sanitizar los datos con funcion externa.
         $atributos=$this->sanitizarAtributos();
 
@@ -65,6 +75,41 @@ class Propiedad{
         $resultado=self::$db-> query($query); // Nos da true/False segun ha sido la conexion a DB
         return($resultado);
     }
+
+
+
+
+    // Actualizar el registro de la DB
+    public function actualizar(){
+        // debuguear('Actualizando.....');
+
+        // Sanitizar los datos con funci888on externa.
+        $atributos=$this->sanitizarAtributos();
+
+        $valores=[];
+        foreach ($atributos as $key => $value) {
+            $valores[] = "{$key}='{$value}'";
+        }
+        $query = "UPDATE propiedades SET ";
+        $query .= join(', ', $valores);
+        $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
+        $query .= " LIMIT 1";
+
+        $resultado = self::$db->query($query);
+
+        
+        if($resultado){
+            // Redirecionar al usuario
+            header('Location: /bienesraicesPOO/admin?resultado=2');
+        }
+    }
+
+
+
+
+
+
+
 
     // Identificar y unir los atributos de la DB.
     public function atributos(){
@@ -98,7 +143,7 @@ class Propiedad{
         // Elimina la imagen previa
         // debuguear($this->imagen);
         // Sí hay un id quiere decir que se esta actualizando, ya que, al  crear uno nuevo el id se crea solo en la DB con auto_increment.
-        if ($this->id) {
+        if (isset($this->id)) {
             // Comprobar si existe el archivo
             $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
             // debuguear($existeArchivo);
@@ -106,7 +151,6 @@ class Propiedad{
                 unlink(CARPETAS_IMAGENES . $this->imagen);
             }
         }
-
         // Asignar al atributo de imagen el nombre de la imagen
         if ($imagen) {
             $this->imagen = $imagen;

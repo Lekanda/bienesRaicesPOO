@@ -1,10 +1,10 @@
 <?php
 
-use App\Propiedad;
-use Intervention\Image\ImageManagerStatic as Image;
+    use App\Propiedad;
+    use Intervention\Image\ImageManagerStatic as Image;
 
 
-require '../../includes/app.php';
+    require '../../includes/app.php';
 
     estaAutenticado();
 
@@ -47,22 +47,16 @@ require '../../includes/app.php';
         $propiedad->setImagen($nombreImagen);
         }
 
-        debuguear($propiedad);
-
-
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
-
-
-            exit;
-            // Insertar en la DB
-            $query = " UPDATE propiedades SET titulo = '${titulo}', precio = '${precio}', imagen = '${nombreImagen}' , descripcion = '${descripcion}', habitaciones = ${habitaciones},  wc = ${wc},  estacionamiento = ${estacionamiento},  vendedorId = ${vendedorId} WHERE id=${id}";
-
-            $resultado = mysqli_query($db,$query);
-            if($resultado){
-                // Redirecionar al usuario
-                header('Location: /bienesraicesPOO/admin?resultado=2');
+            // Almacenar la imagen
+            if ($_FILES['propiedad']['tmp_name']['imagen']){
+                $image->save(CARPETAS_IMAGENES . $nombreImagen);
             }
+            // debuguear($_POST);
+            $_POST['vendedorId'] === 1; //TODO AJUSTE MIO:  $_POST['vendedorId'] === 1; 
+            
+            $propiedad->guardar();
         }
     }
 

@@ -73,7 +73,10 @@ class Propiedad{
         // debuguear($query);
         
         $resultado=self::$db-> query($query); // Nos da true/False segun ha sido la conexion a DB
-        return($resultado);
+        // Mensaje de exito/error en guardar datos.
+        if($resultado){
+            header('Location: /bienesraicesPOO/admin?resultado=1');
+        }
     }
 
 
@@ -105,7 +108,20 @@ class Propiedad{
     }
 
 
+    // Eliminar un registro
+    public function eliminar(){
+        // debuguear('Eliminando' . $this->id);
 
+        // Elimina la propiedad de la DB.
+        $query = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $resultado = self::$db->query($query);
+
+        if ($resultado) {
+            $this->borrarImagen();
+            header('Location: /bienesraicesPOO/admin?resultado=3' );
+        }
+
+    }
 
 
 
@@ -144,18 +160,26 @@ class Propiedad{
         // debuguear($this->imagen);
         // Sí hay un id quiere decir que se esta actualizando, ya que, al  crear uno nuevo el id se crea solo en la DB con auto_increment.
         if (!is_null($this->id)) {
-            // Comprobar si existe el archivo
-            $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
-            // debuguear($existeArchivo);
-            if ($existeArchivo) {
-                unlink(CARPETAS_IMAGENES . $this->imagen);
-            }
+            $this->borrarImagen();
         }
         // Asignar al atributo de imagen el nombre de la imagen
         if ($imagen) {
             $this->imagen = $imagen;
         }
     }
+
+
+    // Borrar la imagen
+    public function borrarImagen(){
+        // debuguear('Eliminando....');
+        // Comprobar si existe el archivo
+        $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
+        // debuguear($existeArchivo);
+        if ($existeArchivo) {
+            unlink(CARPETAS_IMAGENES . $this->imagen);
+        }
+    }
+
 
 
 

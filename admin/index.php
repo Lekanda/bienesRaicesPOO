@@ -17,18 +17,11 @@
         $id = filter_var($id, FILTER_VALIDATE_INT);
         
         if ($id) {
-            // Elimina la imagen (archivo)
-            $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
-            $resultado = mysqli_query($db, $query);
-            $propiedad = mysqli_fetch_assoc($resultado);
-            unlink('../imagenes/' . $propiedad['imagen']);
+            // Obtener los datos de la propiedad
+            $propiedad = Propiedad::find($id);
+            // debuguear($propiedad);
 
-            // Elimina la propiedad de la DB.
-            $query = "DELETE FROM propiedades WHERE id = ${id}";
-            $resultado = mysqli_query($db,$query);
-            if ($resultado) {
-                header('Location: /bienesraicesPOO/admin?resultado=3' );
-            }
+            $propiedad->eliminar();
         }
     }
 

@@ -32,7 +32,7 @@ class Propiedad{
     // Constructor
     public function __construct($args = [])
     {
-        $this->id = $args['id'] ?? '';
+        $this->id = $args['id'] ?? null;
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
         $this->imagen = $args['imagen'] ?? '';
@@ -45,7 +45,7 @@ class Propiedad{
     }
 
     public function guardar(){
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             // Actualizar
             $this->actualizar();
         }else{
@@ -143,7 +143,7 @@ class Propiedad{
         // Elimina la imagen previa
         // debuguear($this->imagen);
         // Sí hay un id quiere decir que se esta actualizando, ya que, al  crear uno nuevo el id se crea solo en la DB con auto_increment.
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             // Comprobar si existe el archivo
             $existeArchivo = file_exists(CARPETAS_IMAGENES . $this->imagen);
             // debuguear($existeArchivo);

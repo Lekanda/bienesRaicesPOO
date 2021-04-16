@@ -32,7 +32,7 @@ class Propiedad{
     // Constructor
     public function __construct($args = [])
     {
-        $this->id = $args['id'] ?? '';
+        $this->id = $args['id'] ?? null;
         $this->titulo = $args['titulo'] ?? '';
         $this->precio = $args['precio'] ?? '';
         $this->imagen = $args['imagen'] ?? '';
@@ -45,7 +45,7 @@ class Propiedad{
     }
 
     public function guardar(){
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             // Actualizar
             $this->actualizar();
         }else{
@@ -73,7 +73,10 @@ class Propiedad{
         // debuguear($query);
         
         $resultado=self::$db-> query($query); // Nos da true/False segun ha sido la conexion a DB
-        return($resultado);
+        // Mensaje de exito/error en guardar datos.
+        if($resultado){
+            header('Location: /bienesraicesPOO/admin?resultado=1');
+        }
     }
 
 
@@ -156,7 +159,7 @@ class Propiedad{
         // Elimina la imagen previa
         // debuguear($this->imagen);
         // Sí hay un id quiere decir que se esta actualizando, ya que, al  crear uno nuevo el id se crea solo en la DB con auto_increment.
-        if (isset($this->id)) {
+        if (!is_null($this->id)) {
             $this->borrarImagen();
         }
         // Asignar al atributo de imagen el nombre de la imagen

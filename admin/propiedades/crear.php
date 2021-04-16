@@ -53,6 +53,7 @@
 
         // Validar 
         $errores = $propiedad->validar();
+        // debuguear($propiedad);
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
@@ -65,12 +66,8 @@
             $image->save(CARPETAS_IMAGENES . $nombreImagen);
 
             // Guarda en la DB
-            $resultado = $propiedad->guardar();
+           $propiedad->guardar();
 
-            // Mensaje de exito/error en guardar datos.
-            if($resultado){
-                header('Location: /bienesraicesPOO/admin?resultado=1');
-            }
         }
     }
 

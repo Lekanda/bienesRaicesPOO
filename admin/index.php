@@ -3,10 +3,13 @@
     estaAutenticado();
 
     use App\Propiedad;
+    use App\Vendedor;
 
     // Implementar un metodo para obtener todas las propiedades con Active Record
     $propiedades = Propiedad::all();
+    $vendedores = Vendedor::all();
     // debuguear($propiedades);
+    debuguear($vendedor);
 
     // Muestra mensaje condicional, si no hay lo pone como null
     $resultado = $_GET['resultado'] ?? null;

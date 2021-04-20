@@ -4,6 +4,7 @@
 
     // Importar o usar las clases
     use App\Propiedad;
+    use App\Vendedor;
     use Intervention\Image\ImageManagerStatic as Image;
 
 
@@ -13,14 +14,12 @@
     estaAutenticado();
     // Restringir el acceso a determinadas paginas.
 
-    // Base de Datos
-    $db = conectarDB();
 
     $propiedad = new Propiedad;
 
-    // Consulat a DB para obtener los vendedores
-    $consulta = "SELECT * FROM vendedores";
-    $resultado = mysqli_query($db,$consulta);
+    // Consulta para obtener todos los vendedores
+    $vendedores = Vendedor::all();
+    // debuguear($vendedores);
 
     // Arreglo con mensajes de errores
     $errores = Propiedad::getErrores();

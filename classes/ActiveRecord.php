@@ -6,7 +6,7 @@ class ActiveRecord{
     
     protected static $db; 
 
-    protected static $columnasDB =['id','titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','vendedorId'];
+    protected static $columnasDB =[];
     protected static $tabla='';
 
 
@@ -14,37 +14,13 @@ class ActiveRecord{
     protected static $errores = [];
 
 
-    public $id;
-    public $titulo;
-    public $precio;
-    public $imagen;
-    public $descripcion;
-    public $habitaciones;
-    public $wc;
-    public $estacionamiento;
-    public $creado;
-    public $vendedorId;
-
     // Definir la conexion a la DB.
     public static function setDB($database){
         // Self podia ser Propiedad. Debe ponerse self x estatico
         self::$db=$database; // En estaticos hay $
     }
 
-    // Constructor
-    public function __construct($args = [])
-    {
-        $this->id = $args['id'] ?? null;
-        $this->titulo = $args['titulo'] ?? '';
-        $this->precio = $args['precio'] ?? '';
-        $this->imagen = $args['imagen'] ?? '';
-        $this->descripcion = $args['descripcion'] ?? '';
-        $this->habitaciones = $args['habitaciones'] ?? '';
-        $this->wc = $args['wc'] ?? '';
-        $this->estacionamiento = $args['estacionamiento'] ?? '';
-        $this->creado = date('Y/m/d');
-        $this->vendedorId = $args['vendedorId'] ?? 1;
-    }
+    
 
     public function guardar(){
         if (!is_null($this->id)) {
@@ -231,7 +207,6 @@ class ActiveRecord{
 
         $resultado = self::consultarSQL($query);
         // debuguear($resultado);
-        
         return $resultado;
     }
 
@@ -262,7 +237,7 @@ class ActiveRecord{
     }
 
     protected static function crearObjeto($registro){
-        $objeto = new self; // Quiere decir 'self' la clase padre(Propiedad)
+        $objeto = new static; // Quiere decir 'self' la clase padre(Propiedad)
         // debuguear($objeto);
         // debuguear($registro);
 

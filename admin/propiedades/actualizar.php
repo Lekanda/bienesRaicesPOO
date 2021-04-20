@@ -54,7 +54,7 @@
                 $image->save(CARPETAS_IMAGENES . $nombreImagen);
             }
             // debuguear($_POST);
-            $_POST['vendedorId'] === 1; //TODO AJUSTE MIO:  $_POST['vendedorId'] === 1; 
+            // $_POST['vendedorId'] === 1; //TODO AJUSTE MIO:  $_POST['vendedorId'] === 1; 
             
             $propiedad->guardar();
         }

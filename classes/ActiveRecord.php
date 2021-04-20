@@ -7,6 +7,8 @@ class ActiveRecord{
     protected static $db; 
 
     protected static $columnasDB =['id','titulo','precio','imagen','descripcion','habitaciones','wc','estacionamiento','creado','vendedorId'];
+    protected static $tabla='';
+
 
     // Errores de Validaciones
     protected static $errores = [];
@@ -65,7 +67,7 @@ class ActiveRecord{
         // debuguear($string); // Nos da los nombre de las variables de los valores
 
         // Insertar en la DB
-        $query = " INSERT INTO propiedades ( "; // IMPORTANTE ESPACIOS
+        $query = " INSERT INTO " . static::$tabla . " ( "; // IMPORTANTE ESPACIOS
         $query .= join(', ',array_keys($atributos)); //Nos da los nombre de las columnas de los valores
         $query .= " ) VALUES (' "; // IMPORTANTE ESPACIOS
         $query .= join("', '",array_values($atributos)); // Nos da los valores.  "', '" => pone a cada valor'' rodeando
@@ -93,7 +95,7 @@ class ActiveRecord{
         foreach ($atributos as $key => $value) {
             $valores[] = "{$key}='{$value}'";
         }
-        $query = "UPDATE propiedades SET ";
+        $query = "UPDATE " . static::$tabla . " SET ";
         $query .= join(', ', $valores);
         $query .= " WHERE id = '" . self::$db->escape_string($this->id) . "' ";
         $query .= " LIMIT 1";
@@ -113,7 +115,7 @@ class ActiveRecord{
         // debuguear('Eliminando' . $this->id);
 
         // Elimina la propiedad de la DB.
-        $query = "DELETE FROM propiedades WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
+        $query = "DELETE FROM " . static::$tabla . " WHERE id = " . self::$db->escape_string($this->id) . " LIMIT 1";
         $resultado = self::$db->query($query);
 
         if ($resultado) {
@@ -224,15 +226,18 @@ class ActiveRecord{
     // Lista todas las propiedades de la DB.Static pq no hace falta crear una nueva instancia, consultamos la db y traemos todos los registros
     public static function all (){
         //Escribir el Query a DB SQL
-        $query = "SELECT * FROM propiedades";
+        $query = "SELECT * FROM " . static::$tabla;
+        // debuguear($query);
+
         $resultado = self::consultarSQL($query);
         // debuguear($resultado);
+        
         return $resultado;
     }
 
     // Metodo para actualizar un registro de la DB x su ID.
     public static function find($id){
-        $query = "SELECT * FROM propiedades WHERE id = ${id}";
+        $query = "SELECT * FROM " . static::$tabla . " WHERE id = ${id}";
         $resultado = self::consultarSQL($query);
 
         return array_shift($resultado); // array_shift: Nos devuelve el primer resultado de un arreglo

@@ -164,39 +164,12 @@ class ActiveRecord{
 
     // Validacion
     public static function getErrores(){
-        return self::$errores;
+        return static::$errores;
     }
 
     public function validar(){
-        // Validar que no vaya vacio
-        if (!$this->titulo) {
-            // $errores[] => añade al arreglo $errores
-            self::$errores[] = "Debes añadir un titulo";
-        }
-        if (!$this->precio) {
-            self::$errores[] = "Debes añadir un precio";
-        }
-        if (strlen($this->descripcion) < 20) {
-            self::$errores[] = "Debes añadir una descripcion";
-        }
-        if (!$this->habitaciones) {
-            self::$errores[] = "Debes añadir un numero de Habitaciones";
-        }
-        if (!$this->wc) {
-            self::$errores[] = "Debes añadir un numero de Baños";
-        }
-        if (!$this->estacionamiento) {
-            self::$errores[] = "Debes añadir un numero de plazas de aparcamiento";
-        }
-        if (!$this->vendedorId) {
-            self::$errores[] = "Debes añadir un Identificador de vendedor";
-        }
-        
-        if (!$this->imagen) {
-            self::$errores[] = "Debes seleccionar una imagen";
-        }
-
-        return self::$errores;
+        static::$errores = [];
+        return static::$errores;
     }
 
     // Lista todas las propiedades de la DB.Static pq no hace falta crear una nueva instancia, consultamos la db y traemos todos los registros

@@ -8,11 +8,11 @@
     // Implementar un metodo para obtener todas las propiedades con Active Record
     $propiedades = Propiedad::all();
     $vendedores = Vendedor::all();
-    // debuguear($propiedades);
-    // debuguear($vendedores);
+
 
     // Muestra mensaje condicional, si no hay lo pone como null
     $resultado = $_GET['resultado'] ?? null;
+
 
     // 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,8 +28,8 @@
         }
     }
 
-// Incluye un template
-incluirTemplate('header');
+    // Incluye un template
+    incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion">
@@ -44,6 +44,7 @@ incluirTemplate('header');
 
         <a href="/bienesraicesPOO/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
 
+        <h2>Propiedades</h2>
         <table class="propiedades">
             <thead>
                 <tr>
@@ -75,11 +76,42 @@ incluirTemplate('header');
                 <?php endforeach; ?>
             </tbody>
         </table>
+
+        <h2>Vendedores</h2>
+        <table class="propiedades">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="cuerpo-tabla-propiedades"><!-- Mostrar los resultados -->
+                <?php foreach($vendedores as $vendedor) : ?>
+                    <tr>
+                        <td> <?php echo $vendedor->id; ?> </td>
+                        <td><?php echo $vendedor->nombre. ' ' . $vendedor->apellido; ?></td>
+                        <td><?php echo $vendedor->telefono; ?></td>
+
+                        <td>
+                            <form method="POST" class="w-100">
+                                <input type="hidden" name="id" value="<?php echo $vendedor->id; ?>">
+
+                                <input type="submit" class="boton-rojo-block" value="Eliminar">
+                            </form>
+                            <a href="/bienesraicesPOO/admin/vendedores/actualizar.php?id=<?php echo $vendedor->id; ?>" class="boton-amarillo-block">Actualizar</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        
+
+
+
     </main>
 <?php
-
-// Cerrar la conexion
-mysqli_close($db);
 
 incluirTemplate('footer');
 ?>

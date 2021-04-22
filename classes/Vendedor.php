@@ -23,4 +23,27 @@ class Vendedor extends ActiveRecord{
         $this->telefono = $args['telefono'] ?? '';
         // $this->imagen = $args['imagen'] ?? '';
     }
+
+    public function validar(){
+        // Validar que no vaya vacio
+        if (!$this->nombre) {
+            // $errores[] => añade al arreglo $errores
+            self::$errores[] = "Debes añadir un Nombre";
+        }
+        if (!$this->apellido) {
+            // $errores[] => añade al arreglo $errores
+            self::$errores[] = "Debes añadir un Apellido";
+        }
+        if (!$this->telefono) {
+            // $errores[] => añade al arreglo $errores
+            self::$errores[] = "Debes añadir un Telefono";
+        }
+        // Busca un patron dentro de un txt. Solo numeros de 0 a 9. 10 digitos a la fuerza
+        if (!preg_match('/[0-9]{10}/',$this->telefono)) {
+            self::$errores[] = "Telefono 10 numeros de 0 a 9";
+            
+        }
+
+        return self::$errores;
+    }
 }

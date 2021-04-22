@@ -13,12 +13,13 @@
     $errores = Vendedor::getErrores();
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // debuguear($_POST);
         // // El constructor de la clase es un Arreglo y $_POST tambien por eso se puede pasar asi.
         $vendedor = new Vendedor($_POST['vendedor']);
+        // debuguear($vendedor);
 
         // Validar 
         $errores = $vendedor->validar();
-        // debuguear($vendedor);
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {

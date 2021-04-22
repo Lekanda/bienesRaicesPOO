@@ -11,6 +11,8 @@ class Vendedor extends ActiveRecord{
     public $nombre;
     public $apellido;
     public $telefono;
+    // public $imagen;
+
 
     // Constructor
     public function __construct($args = [])
@@ -19,5 +21,6 @@ class Vendedor extends ActiveRecord{
         $this->nombre = $args['nombre'] ?? '';
         $this->apellido = $args['apellido'] ?? '';
         $this->telefono = $args['telefono'] ?? '';
+        // $this->imagen = $args['imagen'] ?? '';
     }
 }

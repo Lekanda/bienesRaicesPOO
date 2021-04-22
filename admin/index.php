@@ -31,12 +31,10 @@
                 if ($tipo === 'vendedor') {
                     // Obtener los datos del vendedor
                     $vendedor = Vendedor::find($id);
-                    // debuguear($propiedad);
                     $vendedor->eliminar();
                 } else if ($tipo === 'propiedad') {
                     // Obtener los datos de la propiedad
                     $propiedad = Propiedad::find($id);
-                    // debuguear($propiedad);
                     $propiedad->eliminar();
                 }
             }
@@ -58,6 +56,7 @@
         <?php endif; ?>
 
         <a href="/bienesraicesPOO/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propiedad</a>
+        <a href="/bienesraicesPOO/admin/vendedores/crear.php" class="boton boton-amarillo">Nuevo Vendedor</a>
 
         <h2>Propiedades</h2>
         <table class="propiedades">
@@ -123,12 +122,8 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
-        
-
-
 
     </main>
 <?php
-
-incluirTemplate('footer');
+    incluirTemplate('footer');
 ?>

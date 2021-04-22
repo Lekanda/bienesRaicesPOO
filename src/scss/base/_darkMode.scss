@@ -45,12 +45,13 @@
 
     .propiedades{
         text-align: center;
+        color: darken($verde, 5);
         th{
             color: darken($verde, 28);
         }
         .cuerpo-tabla-propiedades td:nth-child(even){
             color: lighten($verde, 18);
-            background-color: $grisOscuro;
+            // background-color: $grisOscuro;
         }
         .cuerpo-tabla-propiedades td:nth-child(1){
             color: darken($verde, 5);

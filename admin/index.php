@@ -16,23 +16,35 @@
     
     // 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        debuguear($_POST);
+        // debuguear($_POST);
 
 
         $id = $_POST['id'];
         $id = filter_var($id, FILTER_VALIDATE_INT);
         
         if ($id) {
-            // Obtener los datos de la propiedad
-            $propiedad = Propiedad::find($id);
-            // debuguear($propiedad);
+            $tipo = $_POST['tipo'];
+            // debuguear($tipo);
 
-            $propiedad->eliminar();
+            if (validarTipoContenido($tipo)) {
+                // Compara lo que vamos a Eliminar
+                if ($tipo === 'vendedor') {
+                    // Obtener los datos del vendedor
+                    $vendedor = Vendedor::find($id);
+                    // debuguear($propiedad);
+                    $vendedor->eliminar();
+                } else if ($tipo === 'propiedad') {
+                    // Obtener los datos de la propiedad
+                    $propiedad = Propiedad::find($id);
+                    // debuguear($propiedad);
+                    $propiedad->eliminar();
+                }
+            }
         }
     }
 
-// Incluye un template
-incluirTemplate('header');
+    // Incluye un template
+    incluirTemplate('header');
 ?>
 
     <main class="contenedor seccion">
@@ -70,6 +82,7 @@ incluirTemplate('header');
                         <td>
                             <form method="POST" class="w-100">
                                 <input type="hidden" name="id" value="<?php echo $propiedad->id; ?>">
+                                <input type="hidden" name="tipo" value="propiedad">
 
                                 <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>
@@ -100,6 +113,7 @@ incluirTemplate('header');
                         <td>
                             <form method="POST" class="w-100">
                                 <input type="hidden" name="id" value="<?php echo $vendedor->id; ?>">
+                                <input type="hidden" name="tipo" value="vendedor">
 
                                 <input type="submit" class="boton-rojo-block" value="Eliminar">
                             </form>

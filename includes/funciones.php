@@ -31,3 +31,10 @@ function s ($html) : string{
     $s = htmlspecialchars($html);
     return $s;
 }
+
+// Validar el tipo de contenido
+function validarTipoContenido ($tipo){
+    $tipos = ['vendedor','propiedad'];
+    // in_array -> busca un string en un arreglo. 1º el string a buscar; 2º Arreglo donde buscarlo
+    return in_array($tipo, $tipos);
+}

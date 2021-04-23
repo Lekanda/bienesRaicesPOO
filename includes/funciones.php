@@ -38,3 +38,25 @@ function validarTipoContenido ($tipo){
     // in_array -> busca un string en un arreglo. 1º el string a buscar; 2º Arreglo donde buscarlo
     return in_array($tipo, $tipos);
 }
+
+// Muestra los mensajes
+function mostrarNotificacion($codigo){
+    $mensaje = '';
+
+    switch ($codigo) {
+        case 1:
+            $mensaje = 'Creado correctamente';
+            break;
+        case 2:
+            $mensaje = 'Actualizado Correctamente';
+            break;
+        case 3:
+            $mensaje = 'Borrado Correctamente';
+             break;
+        default:
+            $mensaje=false;
+            break;
+    }
+
+    return $mensaje;
+}

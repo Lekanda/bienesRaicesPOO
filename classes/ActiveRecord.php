@@ -64,7 +64,7 @@ class ActiveRecord{
     public function actualizar(){
         // debuguear('Actualizando.....');
 
-        // Sanitizar los datos con funci888on externa.
+        // Sanitizar los datos con funcion externa.
         $atributos=$this->sanitizarAtributos();
 
         $valores=[];

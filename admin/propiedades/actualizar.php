@@ -79,6 +79,7 @@
         <?php endforeach; ?> 
 
         <form method="POST" class="formulario" enctype="multipart/form-data">
+        
             <?php include '../../includes/templates/formulario_propiedades.php' ?>
 
             <input type="submit" value="Editar Propiedad" class="boton boton-verde">

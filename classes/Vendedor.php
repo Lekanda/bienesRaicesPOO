@@ -39,9 +39,8 @@ class Vendedor extends ActiveRecord{
             self::$errores[] = "Debes añadir un Telefono";
         }
         // Busca un patron dentro de un txt. Solo numeros de 0 a 9. 10 digitos a la fuerza
-        if (!preg_match('/[0-9]{10}/',$this->telefono)) {
-            self::$errores[] = "Telefono 10 numeros de 0 a 9";
-            
+        if (!preg_match('/[0-9]{9}/',$this->telefono)) {
+            self::$errores[] = "Telefono 9 numeros de 0 a 9 cada uno";
         }
 
         return self::$errores;

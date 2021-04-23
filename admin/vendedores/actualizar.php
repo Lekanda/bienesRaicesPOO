@@ -7,18 +7,29 @@
     // Restringir el acceso a determinadas paginas.
     estaAutenticado();
 
-    $vendedor = new Vendedor;
+    // Validar la URL por ID valido(INT)
+    $id= $_GET['id'];
+    $id=filter_var($id, FILTER_VALIDATE_INT);
+    if (!$id) {
+        header('Location: /bienesraicesPOO/admin');
+    }
+
+    // Obtener los datos dl vendedor a actualizar
+    $vendedor = Vendedor::find($id);
 
     // Arreglo con mensajes de errores
     $errores = Vendedor::getErrores();
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // // El constructor de la clase es un Arreglo y $_POST tambien por eso se puede pasar asi.
-        $vendedor = new Vendedor($_POST['vendedor']);
+        // debuguear($_POST);
+        // Asignar los valores a los atributos
+        $args = $_POST['vendedor'];
 
-        // Validar 
-        $errores = $vendedor->validar();
+        $vendedor->sincronizar($args);
         // debuguear($vendedor);
+        // Validacion
+        $errores = $vendedor->validar();
+        // debuguear($errores);
 
         // Comprobar que no haya errores en arreglo $errores. Comprueba que este VACIO (empty).
         if (empty($errores)) {
@@ -43,8 +54,10 @@
         <?php endforeach; ?> 
 
         <!-- Formulario -->
-        <form method="POST" class="formulario" action="/bienesraicesPOO/admin/vendedores/actualizar.php" enctype="multipart/form-data">
+        <form method="POST" class="formulario" enctype="multipart/form-data">
+
             <?php include '../../includes/templates/formulario_vendedores.php' ?>
+
             <input type="submit" value="Guardar Cambios" class="boton boton-verde">
         </form>
     </main>

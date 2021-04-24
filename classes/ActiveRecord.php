@@ -9,18 +9,14 @@ class ActiveRecord{
     protected static $columnasDB =[];
     protected static $tabla='';
 
-
     // Errores de Validaciones
     protected static $errores = [];
-
 
     // Definir la conexion a la DB.
     public static function setDB($database){
         // Self podia ser Propiedad. Debe ponerse self x estatico
         self::$db=$database; // En estaticos hay $
     }
-
-    
 
     public function guardar(){
         if (!is_null($this->id)) {
@@ -57,9 +53,6 @@ class ActiveRecord{
         }
     }
 
-
-
-
     // Actualizar el registro de la DB
     public function actualizar(){
         // debuguear('Actualizando.....');
@@ -77,14 +70,12 @@ class ActiveRecord{
         $query .= " LIMIT 1";
 
         $resultado = self::$db->query($query);
-
         
         if($resultado){
             // Redirecionar al usuario
             header('Location: /bienesraicesPOO/admin?resultado=2');
         }
     }
-
 
     // Eliminar un registro
     public function eliminar(){
@@ -98,12 +89,7 @@ class ActiveRecord{
             $this->borrarImagen();
             header('Location: /bienesraicesPOO/admin?resultado=3' );
         }
-
     }
-
-
-
-
 
     // Identificar y unir los atributos de la DB.
     public function atributos(){
@@ -128,10 +114,6 @@ class ActiveRecord{
         return $sanitizado;
     }
 
-
-
-
-
     //  Subida de Archivos
     public function setImagen($imagen){
         // Elimina la imagen previa
@@ -146,7 +128,6 @@ class ActiveRecord{
         }
     }
 
-
     // Borrar la imagen
     public function borrarImagen(){
         // debuguear('Eliminando....');
@@ -157,10 +138,6 @@ class ActiveRecord{
             unlink(CARPETAS_IMAGENES . $this->imagen);
         }
     }
-
-
-
-
 
     // Validacion
     public static function getErrores(){
@@ -190,8 +167,6 @@ class ActiveRecord{
 
         return array_shift($resultado); // array_shift: Nos devuelve el primer resultado de un arreglo
     }
-
-
     
     // Metodo para hacer consultas a SQL DB. REUTILIZABLE
     public static function consultarSQL ($query) {
@@ -220,7 +195,6 @@ class ActiveRecord{
                 $objeto->$key = $value;
             }
         }
-
         return $objeto;
     }
 
@@ -234,8 +208,6 @@ class ActiveRecord{
             }
         }
     }
-
-    
 
 
 }

@@ -29,7 +29,7 @@
         <h2>Casas y Fincas en Venta</h2>
 
         <?php 
-            $limite = 3;
+            $limite = 10;
             include 'includes/templates/anuncios.php';
         ?>
 

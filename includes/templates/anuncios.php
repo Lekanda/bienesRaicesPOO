@@ -4,6 +4,13 @@
    $propiedades = Propiedad::all();
 
 //    debuguear($propiedades);
+//    debuguear($_SERVER);
+
+    if ($_SERVER['SCRIPT_NAME'] === "/bienesraicesPOO/anuncios.php") {
+        $propiedades = Propiedad::all();
+    } else {
+        $propiedades = Propiedad::get(3);
+    }
 
 ?>
 

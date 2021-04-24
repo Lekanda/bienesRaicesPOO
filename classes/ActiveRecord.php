@@ -160,6 +160,17 @@ class ActiveRecord{
         return $resultado;
     }
 
+    // Obtiene determinado numero de registros a enseñar en anuncios.
+    public static function get ($cantidad){
+        //Escribir el Query a DB SQL
+        $query = "SELECT * FROM " . static::$tabla . " LIMIT " . $cantidad;
+        // debuguear($query);
+
+        $resultado = self::consultarSQL($query);
+        // debuguear($resultado);
+        return $resultado;
+    }
+
     // Metodo para actualizar un registro de la DB x su ID.
     public static function find($id){
         $query = "SELECT * FROM " . static::$tabla . " WHERE id = ${id}";

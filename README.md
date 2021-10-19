@@ -4,7 +4,7 @@
 ## Datos Iniciales  
 
 - Este proyecto es una continuacion del proyecto **bienesraicesPOO con PHP** del **Curso de Desarrollo Web de HTML y mas**. Juan de la Torre (*Udemy*)  
-- Configurado para servidor de **Laragon**.
+- Configurado para servidor de **Base**.
 - *Para el correcto funcionamiento:* en **configuracion** de **Laragon** poner como **raiz** de *Laragon* **"C:\laragon\www\"**.     
 
 ## Tecnologias
